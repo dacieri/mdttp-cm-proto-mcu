@@ -44,7 +44,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description='Run an automated set of MCU tests.')
     parser.add_argument('-c', '--command', action='store', type=str,
-                        choices=['power_up', 'power_down', 'power_detail',
+                        choices=['power_up', 'power_down', 'power_detail','power_check',
                                  'sn', 'sn_sm', 'status', 'mon_temp',
                                  'mcu_cmd_raw', 'mcu_led_user',
                                  'i2c_reset', 'i2c_detect', "i2c_mux_reset",
@@ -81,6 +81,13 @@ if __name__ == "__main__":
         mdtTp_CM.power_down()
     elif command == "power_detail":
         mdtTp_CM.power_status_detail()
+    elif command == "power_check":
+        ret = mdtTp_CM.power_check()
+        if ret == 0:
+            sys.exit(0)
+        else:
+            print ('FAIL! power no completely on')
+            sys.exit(1)
     elif command == "sn":
         mdtTp_CM.serial_number()
     elif command == "sn_sm":

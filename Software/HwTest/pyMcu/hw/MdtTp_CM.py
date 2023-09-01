@@ -85,8 +85,9 @@ class MdtTp_CM:
             return -1, 0x0
         if len(data) < 2:
             return -1, 0x0
-        if data[0].strip(':') != "OK":
-            return -1, 0x0
+        # sometimes the OK is forgotten in firmware
+        #        if data[0].strip(':') != "OK":
+        #            return -1, 0x0
         return 0, int(data[-1].strip(), 0)
 
 
@@ -136,6 +137,7 @@ class MdtTp_CM:
         print(powerStatusStr)
         cmd = "gpio power-good"
         ret, powerGoodStr = self.mcu_cmd_raw(cmd)
+        print('response from ' + cmd + ' is: ' + powerGoodStr )
         ret, powerGood = self.mcu_str2int(powerGoodStr)
         print("Power good: 0x{0:03x}".format(powerGood))
         print(self.prefixStatus + "P0V85 (FPGA core, 0.85 V) : " + ("OK" if (powerGood & 0x001) else "-"))
@@ -150,7 +152,15 @@ class MdtTp_CM:
         print(self.prefixStatus + "LTC2977_2 (P1V8_MISC, P3V3_MISC, P5V_MISC, P3V3_FF) : " + ("OK" if (powerGood & 0x200) else "-"))
         return ret
 
-
+    # Read the power status of the CM.
+    def power_check(self):
+        if self.debugLevel >= 1:
+            print(self.prefixDebug + "Checking the power status of the CM. exit 1 if not completely on")
+        cmd = "gpio power-good"
+        ret, powerGoodStr = self.mcu_cmd_raw(cmd)
+        print('response from ' + cmd + ' is: ' + powerGoodStr )
+        ret, powerGood = self.mcu_str2int(powerGoodStr)
+        return ret + (powerGood!=0x3ff)
 
     # Read the serial number of the board.
     def serial_number(self):
