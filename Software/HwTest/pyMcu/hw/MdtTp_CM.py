@@ -776,13 +776,19 @@ class MdtTp_CM:
         muxChannel = i2cDevice.muxChannel
         if self.debugLevel >= 1:
             print(self.prefixDebug + "Setting I2C mux for clock chips {0:s} to channel {1:d}.".format(self.i2cDevice_IC36_PCA9545APW.deviceName, muxChannel))
-        self.i2cDevice_IC36_PCA9545APW.set_channels([muxChannel])
+        ret = self.i2cDevice_IC36_PCA9545APW.set_channels([muxChannel])
+        if ret != 0: 
+            print (self.prefixError + "Error setting the I2C channel")
+            return -1
         self.i2cDevice_IC36_PCA9545APW.debugLevel = self.debugLevel
         regMapFile = i2cDevice.regMapFile
         print("Initialitzing {0:s} on I2C port {1:d} with register map file `{2:s}'.".\
             format(i2cDevice.deviceName, i2cDevice.mcuI2C.port, regMapFile))
         i2cDevice.debugLevel = self.debugLevel
-        i2cDevice.config_file(regMapFile)
+        ret = i2cDevice.config_file(regMapFile)
+        if ret != 0:
+            print("Error: could not config clock chip")
+        return ret
 
 
     def clk_prog_ic11(self, i2cDevice):
@@ -791,13 +797,16 @@ class MdtTp_CM:
         if self.debugLevel >= 1:
             print(self.prefixDebug + "Setting I2C mux for clock chips {0:s} to channel {1:d}.".format(self.i2cDevice_IC36_PCA9545APW.deviceName, muxChannel))
         self.i2cDevice_IC36_PCA9545APW.debugLevel = self.debugLevel
-        self.i2cDevice_IC36_PCA9545APW.set_channels([muxChannel])
+        ret = self.i2cDevice_IC36_PCA9545APW.set_channels([muxChannel])
+        if ret != 0: 
+            print (self.prefixError + "Error setting the I2C channel")
+            return -1
         ret, freq = i2cDevice.get_freq()
         if ret:
             print (self.prefixError + "Error reading initial frequency")
             return -1
         print ("Initial frequency is {}".format(freq))
-        i2cDevice.prog(i2cDevice.clk_freq)
+        ret = i2cDevice.prog(i2cDevice.clk_freq)
         if ret:
             print (self.prefixError + "Error writing configuration")
             return -1
@@ -806,6 +815,7 @@ class MdtTp_CM:
             print (self.prefixError + "Error reading initial frequency")
             return -1
         print ("New frequency is {}".format(freq))
+        return 0
         
     # Program a single Silicon Labs clock IC from a register map file by its name.
     def clk_prog_device_by_name(self, clkDevName, regMapFile):
@@ -836,8 +846,7 @@ class MdtTp_CM:
         if "IC11" == clkDevice.deviceName.split(' ')[0]:
             clkDevice.clk_freq = regMapFile
             return self.clk_prog_ic11(clkDevice)
-        self.clk_prog_device_file(clkDevice)
-        return 0
+        return self.clk_prog_device_file(clkDevice)
 
 
 
