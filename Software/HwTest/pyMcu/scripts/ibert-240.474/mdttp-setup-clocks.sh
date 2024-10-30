@@ -1,28 +1,22 @@
 #!/bin/sh
 # File: setup_ibert_rec-clk.sh
 # Auth: M. Fras, Electronics Division, MPI for Physics, Munich
-# Mod.: M. Fras, Electronics Division, MPI for Physics, Munich
+# Mod.: R. Rojas, UMass - CERN
 # Date: 23 Mar 2021
 # Rev.: 27 Feb 2023
+# Rev.: 29 Oct 2024
 #
 # Simple script to set up the ATLAS MDT Trigger Processor (TP) Command Module
-# for Xilinx IBERT tests, using the recovered clock from the FELIX IBERT module
-# for the front-end IBERT module.
+# for Xilinx IBERT tests,
 #
-# Reference clock path on the CM demonstrator V1/V2:
-#   IC54, free-running mode, OUT: 40 MHz
-#   -> IC82, IN0: 40 MHz, OUT: 240 MHz
-#   -> KU15P FELIX IBERT, MGTREFCLK0: 240 MHz -> rxoutclock: 120 MHz
-#   -> Multiplexer for recovered LHC clock (IC57)
-#   -> IC56, IN2/IN3 (*): 120 MHz, OUT: 40 MHz
-#   -> IC83, IN2:  40 MHz, OUT: 40 MHz
-#       +-> IC84, IN0: 40 MHz, OUT: 320 MHz -> KU15P FE IBERT, MGTREFCLK0: 320 MHz
-#       +-> IC85, IN0: 40 MHz, OUT: 320 MHz -> ZU11EG FE IBERT, MGTREFCLK0: 320 MHz
+# Reference clock path on the CM Prototype:
+#   IC12, free-running mode, OUT: 200 MHz       (Used for C2C communication)
+#   IC11, free-running mode, OUT: 240.474 MHz   (Used for GTY120 TC link)
+#   -> IC10, IN0: 120.237 MHz, OUT: 40.079 MHz  (Expect recovered clock from TC, usually half of the ref clock. MGTREFCLK0: 240.474 MHz -> rxoutclock: 120.237 MHz)
+#       -> IC1, IN0: 40.079 MHz, OUT: 40.079 MHz
+#           -> IC2,4,6,8, IN0:  40.079 MHz, OUT: 240.474 MHz (Connected to all MGTREFCLK0, MGTREFCLK1 not used)
 #
-# (*) IN3 on the CM demonstrator V1, IN2 on the CM demonstrator V2. IN3 is used
-#     for the zero-delay mode on V2.
 #
-
 
 
 cd `dirname $0`
