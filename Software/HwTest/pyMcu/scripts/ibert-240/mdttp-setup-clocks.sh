@@ -61,16 +61,16 @@ echo "Program the clock synthesizer chip IC1 (Si5345A) to multiplex the 40MHz LH
 ${PY_MCU_CM} -d ${SERIAL_DEVICE} -v ${VERBOSITY} -c clk_setup -p IC1 ${PYMCU_DIR}/config/clock/IBERT-TEST/IC1_40IN0_40_40_40_40_40_40_40_40_40_FB-Registers.txt
 
 echo "Program the clock synthesizer chip IC2 (Si5345A) for SL communication."
-${PY_MCU_CM} -d ${SERIAL_DEVICE} -v ${VERBOSITY} -c clk_setup -p IC2  ${PYMCU_DIR}/config/clock/IBERT-TEST/IC2,3,6,7_40IN0_240_FB-Registers.txt
+${PY_MCU_CM} -d ${SERIAL_DEVICE} -v ${VERBOSITY} -c clk_setup -p IC2  ${PYMCU_DIR}/scripts/ibert-240/IC2,3,6,7_40-IN0_240-OUT0,1,2,3,4,5,6,7,8_FB-Registers.txt
 
 echo "Program the clock synthesizer chip IC4 (Si5345A) for SL communication."
-${PY_MCU_CM} -d ${SERIAL_DEVICE} -v ${VERBOSITY} -c clk_setup -p IC4  ${PYMCU_DIR}/config/clock/IBERT-TEST/IC2,3,6,7_40IN0_240_FB-Registers.txt
+${PY_MCU_CM} -d ${SERIAL_DEVICE} -v ${VERBOSITY} -c clk_setup -p IC4  ${PYMCU_DIR}/scripts/ibert-240/IC2,3,6,7_40-IN0_240-OUT0,1,2,3,4,5,6,7,8_FB-Registers.txt
 
 echo "Program the clock synthesizer chip IC6 (Si5345A) for SL communication."
-${PY_MCU_CM} -d ${SERIAL_DEVICE} -v ${VERBOSITY} -c clk_setup -p IC6  ${PYMCU_DIR}/config/clock/IBERT-TEST/IC2,3,6,7_40IN0_240_FB-Registers.txt
+${PY_MCU_CM} -d ${SERIAL_DEVICE} -v ${VERBOSITY} -c clk_setup -p IC6  ${PYMCU_DIR}/scripts/ibert-240/IC2,3,6,7_40-IN0_240-OUT0,1,2,3,4,5,6,7,8_FB-Registers.txt
 
 echo "Program the clock synthesizer chip IC8 (Si5345A) for SL communication."
-${PY_MCU_CM} -d ${SERIAL_DEVICE} -v ${VERBOSITY} -c clk_setup -p IC8  ${PYMCU_DIR}/config/clock/IBERT-TEST/IC2,3,6,7_40IN0_240_FB-Registers.txt
+${PY_MCU_CM} -d ${SERIAL_DEVICE} -v ${VERBOSITY} -c clk_setup -p IC8  ${PYMCU_DIR}/scripts/ibert-240/IC2,3,6,7_40-IN0_240-OUT0,1,2,3,4,5,6,7,8_FB-Registers.txt
 
 echo "Program the clock synthesizer chip IC10 (SI5345A) to generate a fixed 40 MHz clock from the 120MHz rec-clock "
 echo "WARNING: the recovered clock may be of 128MHz instead of 120, don't worry... the clock will work as free running"
