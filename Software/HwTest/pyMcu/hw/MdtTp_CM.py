@@ -317,13 +317,13 @@ class MdtTp_CM:
 
         # Define the I2C I/O expander devices.
         self.i2c_io_exp_define()
- 
+
         # Firefly's
         self.i2cDevice_FF_I2CMUX_0x70 = I2C_PCA9545.I2C_PCA9545(self.mcuI2C[2], 0x70, "FF_MUX_0x70");
         self.i2cDevice_FF_I2CMUX_0x71 = I2C_PCA9545.I2C_PCA9545(self.mcuI2C[2], 0x71, "FF_MUX_0x71");
         self.i2cDevice_FF_I2CMUX_0x72 = I2C_PCA9545.I2C_PCA9545(self.mcuI2C[2], 0x72, "FF_MUX_0x72");
-        self.i2cDevice_FF_tx = I2C_FireFly.I2C_FireFly(self.mcuI2C[2], 0x50, "FF_TX", 'tx'); 
-        self.i2cDevice_FF_rx = I2C_FireFly.I2C_FireFly(self.mcuI2C[2], 0x54, "FF_RX", 'rx'); 
+        self.i2cDevice_FF_tx = I2C_FireFly.I2C_FireFly(self.mcuI2C[2], 0x50, "FF_TX", 'tx');
+        self.i2cDevice_FF_rx = I2C_FireFly.I2C_FireFly(self.mcuI2C[2], 0x54, "FF_RX", 'rx');
 
     # Read FF status
     def read_ff(self, ff):
@@ -570,6 +570,8 @@ class MdtTp_CM:
         for channel in range(i2cDevice.hwChannels):
             print(self.prefixStatus + "Channel {0:d}: {1:7s}: {2:5.2f} V".format(channel, "V_out", data[4][channel]))
             print(self.prefixStatus + "Channel {0:d}: {1:7s}: {2:5.2f} A".format(channel, "I_out", data[5][channel]))
+            print(self.prefixStatus + "Channel {0:d}: {1:7s}: {2:5.2f} V".format(channel, "VOUT_FAULT_LIMIT", data[6][channel]))
+            print(self.prefixStatus + "Channel {0:d}: {1:7s}: {0:d} ".format(channel, "VOUT_FAULT_RESPONSE", data[7][channel]))
         return 0
 
 
@@ -597,6 +599,8 @@ class MdtTp_CM:
         for channel in range(i2cDevice.hwChannels):
             print(self.prefixStatus + "{0:d}: {1:23s}: {2:5.2f} V".format(channel, measurementNames[channel], data[4][channel]))
             print(self.prefixStatus + "{0:d}: {1:23s}: {2:5.2f} A".format(channel, measurementNames[channel], data[5][channel]))
+            print(self.prefixStatus + "{0:d}: {1:7s}: {2:5.2f} V".format( "VOUT_FAULT_LIMIT", data[6][channel]))
+            print(self.prefixStatus + "{0:d}: {1:7s}: {0:d} ".fornel, "VOUT_FAULT_RESPONSE", data[7][channel]))
         return 0
 
 
@@ -777,7 +781,7 @@ class MdtTp_CM:
         if self.debugLevel >= 1:
             print(self.prefixDebug + "Setting I2C mux for clock chips {0:s} to channel {1:d}.".format(self.i2cDevice_IC36_PCA9545APW.deviceName, muxChannel))
         ret = self.i2cDevice_IC36_PCA9545APW.set_channels([muxChannel])
-        if ret != 0: 
+        if ret != 0:
             print (self.prefixError + "Error setting the I2C channel")
             return -1
         self.i2cDevice_IC36_PCA9545APW.debugLevel = self.debugLevel
@@ -798,7 +802,7 @@ class MdtTp_CM:
             print(self.prefixDebug + "Setting I2C mux for clock chips {0:s} to channel {1:d}.".format(self.i2cDevice_IC36_PCA9545APW.deviceName, muxChannel))
         self.i2cDevice_IC36_PCA9545APW.debugLevel = self.debugLevel
         ret = self.i2cDevice_IC36_PCA9545APW.set_channels([muxChannel])
-        if ret != 0: 
+        if ret != 0:
             print (self.prefixError + "Error setting the I2C channel")
             return -1
         ret, freq = i2cDevice.get_freq()
@@ -816,7 +820,7 @@ class MdtTp_CM:
             return -1
         print ("New frequency is {}".format(freq))
         return 0
-        
+
     # Program a single Silicon Labs clock IC from a register map file by its name.
     def clk_prog_device_by_name(self, clkDevName, regMapFile):
         clkDeviceList = [self.i2cDevice_IC1_Si5345A,
@@ -1327,7 +1331,7 @@ class MdtTp_CM:
             "IC9":"CLK_FF_79_1_LOLb",
             "IC10":"CLK_FF_TD_0_LOLb",
             "IC12":"SM_LOLb"}
-        
+
         # read LOL for all clock chips
         for ic in clkstatusSignals.keys():
             print(ic)
