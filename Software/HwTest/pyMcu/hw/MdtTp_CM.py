@@ -572,7 +572,7 @@ class MdtTp_CM:
             print(self.prefixStatus + "Channel {0:d}: {1:7s}: {2:5.2f} A".format(channel, "I_out", data[5][channel]))
             print(self.prefixStatus + "Channel {0:d}: {1:7s}: {2:5.2f} V".format(channel, "VOUT_FAULT_LIMIT", data[6][channel]))
             print(self.prefixStatus + "Channel {0:d}: {1:7s}: {0:d} ".format(channel, "VOUT_FAULT_RESPONSE", data[7][channel]))
-        print(self.prefixStatus + "STATUS_WORD: " + data[8])
+        print(self.prefixStatus + "STATUS_WORD: " + str(data[8]))
 
         return 0
 
@@ -603,7 +603,7 @@ class MdtTp_CM:
             print(self.prefixStatus + "{0:d}: {1:23s}: {2:5.2f} A".format(channel, measurementNames[channel], data[5][channel]))
             print(self.prefixStatus + "{0:d}: {1:7s}: {2:5.2f} V".format(channel, "VOUT_FAULT_LIMIT", data[6][channel]))
             print(self.prefixStatus + "{0:d}: {1:7s}: {0:d} ".format(channel, "VOUT_FAULT_RESPONSE", data[7][channel]))
-        print(self.prefixStatus + "STATUS_WORD: " + data[8])
+        print(self.prefixStatus + "STATUS_WORD: " + str(data[8]))
         return 0
 
 
