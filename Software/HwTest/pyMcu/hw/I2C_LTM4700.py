@@ -44,6 +44,7 @@ class I2C_LTM4700:
     hwCmdCodeReadTempExt    = 0x8d
     hwCmdCodeReadTempInt    = 0x8e
     hwCmdCodeMfrConfigChan  = 0xd0
+    hwCmdStatusWord         = 0x79
     hwDataLenMin            = 1
     hwDataLenMax            = 2
     hwPageMin               = 0     # Lowest hardware channel/page number.
@@ -97,6 +98,8 @@ class I2C_LTM4700:
             cmdName = "VOUT_OV_FAULT_LIMIT"
         elif cmdCode == cls.hwCmdCodeVOUT_OV_FAULT_RESPONSE:
             cmdName = "VOUT_OV_FAULT_RESPONSE"
+        elif cmdCode == cls.hwCmdStatusWord:
+            cmdName = "STATUS_WORD"
         elif cmdCode <= 0xfd:
             cmdName = "unknown"
         else:
@@ -378,6 +381,15 @@ class I2C_LTM4700:
         iinRaw = (data[1] << 8) + data[0]
         return 0, self.l11_to_float(iinRaw)
 
+    def read_status_word(self):
+        ret, data = self.read(self.hwCmdStatusWord, 2)
+        if ret:
+            self.errorCount += 1
+            print(self.prefixErrorDevice + "Error reading the status word. Error code: 0x{0:02x}: ".format(ret))
+            return -1, 0xffff
+        statusWord = data[0]
+        return 0, statusWord
+
 
 
     # Read the measured output voltage.
@@ -495,6 +507,11 @@ class I2C_LTM4700:
             if ret:
                 return -1, [-1]
             vout_fault_response.append(voutFaultResponse)
+        # Return the status information
+        # Iin.
+        ret, status_word = self.read_status_word()
+        if ret:
+            return -1, [-1]
 
-        return 0, [temperatureExt, temperatureInt, vin, iin, vout, iout, vout_fault_limit, vout_fault_response]
+        return 0, [temperatureExt, temperatureInt, vin, iin, vout, iout, vout_fault_limit, vout_fault_response, status_word]
 
