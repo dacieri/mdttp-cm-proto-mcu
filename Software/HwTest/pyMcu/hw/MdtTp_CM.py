@@ -577,7 +577,7 @@ class MdtTp_CM:
         print(self.prefixStatus + "status_vout: " + str(data[10]))
         print(self.prefixStatus + "mfr_pwr_comp: " + str(data[11]))
         print(self.prefixStatus + "mfr_pwr_mode: " + str(data[12]))
-        print(self.prefixStatus + "mfr_pwr_config: " + str(data[12]))
+        print(self.prefixStatus + "mfr_pwr_config: " + str(data[13]))
         print("\n")
         return 0
 
@@ -613,7 +613,7 @@ class MdtTp_CM:
         print(self.prefixStatus + "status_vout: " + str(data[10]))
         print(self.prefixStatus + "mfr_pwr_comp: " + str(data[11]))
         print(self.prefixStatus + "mfr_pwr_mode: " + str(data[12]))
-        print(self.prefixStatus + "mfr_pwr_config: " + str(data[12]))
+        print(self.prefixStatus + "mfr_pwr_config: " + str(data[13]))
         print("\n")
 
 
