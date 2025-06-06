@@ -371,6 +371,14 @@ class I2C_LTM4700:
         voutFaultResponse = data[0]
         return 0, voutFaultResponse
 
+    def read_byte(self, cmdCode):
+        ret, data = self.read(cmdCode, 1)
+        if ret:
+            self.errorCount += 1
+            print(self.prefixErrorDevice + "Error reading the command 0x{0:02x}. Error code: 0x{1:02x}: ".format(cmdCode, ret))
+            return -1, 0xff
+        return 0, data[0]
+
     # Read the measured input supply current.
     def read_iin(self):
         ret, data = self.read(self.hwCmdCodeReadIin, 2)
@@ -390,8 +398,6 @@ class I2C_LTM4700:
         statusWord = (data[1] << 8) + data[0]
         return 0, statusWord
 
-
-
     # Read the measured output voltage.
     def read_vout(self, channel):
         if self.set_page(channel):
@@ -405,8 +411,6 @@ class I2C_LTM4700:
             return -1, float(-1)
         voutRaw = (data[1] << 8) + data[0]
         return 0, self.l16_to_float(voutRaw)
-
-
 
     # Read the average output current in amperes.
     def read_iout(self, channel):
@@ -507,11 +511,32 @@ class I2C_LTM4700:
             if ret:
                 return -1, [-1]
             vout_fault_response.append(voutFaultResponse)
+
         # Return the status information
         # Iin.
         ret, status_word = self.read_status_word()
         if ret:
             return -1, [-1]
 
-        return 0, [temperatureExt, temperatureInt, vin, iin, vout, iout, vout_fault_limit, vout_fault_response, status_word]
+        ret, status_mfr_specific = self.read_byte(0x80)
+        if ret:
+            return -1, [-1]
+
+        ret, status_vout = self.read_byte(0x7A)
+        if ret:
+            return -1, [-1]
+
+        ret, mfr_pwr_comp = self.read_byte(0xD3)
+        if ret:
+            return -1, [-1]
+
+        ret, mfr_pwr_mode = self.read_byte(0xD4)
+        if ret:
+            return -1, [-1]
+
+        ret, mfr_pwr_config = self.read_byte(0xF5)
+        if ret:
+            return -1, [-1]
+
+        return 0, [temperatureExt, temperatureInt, vin, iin, vout, iout, vout_fault_limit, vout_fault_response, status_word, status_mfr_specific, status_vout, mfr_pwr_comp, mfr_pwr_mode, mfr_pwr_config]
 

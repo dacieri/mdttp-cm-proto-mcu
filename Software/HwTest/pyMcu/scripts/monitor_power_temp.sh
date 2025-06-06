@@ -27,7 +27,8 @@ while [ 1 ]; do
 #    date +"%Y%m%d %H%M%S"
     date +"%d.%m.%Y %H:%M:%S"
 #    ipmitool -H 192.168.0.2 -P "" -t 0x92 sensor | grep "PIM400KZ Current"
-    ${PY_MCU_CM} -d ${SERIAL_DEVICE} -v ${VERBOSITY} -c mon_temp | grep "VU13P"
+    ${PY_MCU_CM} -d ${SERIAL_DEVICE} -v ${VERBOSITY} -c mon_temp | grep "degC"
+    ${PY_MCU_CM} -d ${SERIAL_DEVICE} -v ${VERBOSITY} -c power_detail
     echo
 done
 
