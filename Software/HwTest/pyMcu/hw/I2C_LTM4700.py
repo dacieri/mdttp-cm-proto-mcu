@@ -55,12 +55,12 @@ class I2C_LTM4700:
 
 
     # Initialize the I2C device.
-    def __init__(self, mcuI2C, slaveAddr, deviceName):
+    def __init__(self, mcuI2C, slaveAddr, deviceName, debugLevel=0):
         self.mcuI2C = mcuI2C
         self.slaveAddr = slaveAddr
         self.deviceName = deviceName
         self.i2cDevice = I2CDevice.I2CDevice(self.mcuI2C, self.slaveAddr, self.deviceName)
-        self.i2cDevice.debugLevel = self.debugLevel
+        self.i2cDevice.debugLevel = debugLevel
         self.prefixDebugDevice = self.prefixDebug + self.deviceName + ": "
         self.prefixErrorDevice = self.prefixError + self.deviceName + ": "
         self.errorCount = 0

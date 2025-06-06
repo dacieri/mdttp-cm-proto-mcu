@@ -306,7 +306,7 @@ class MdtTp_CM:
         # IC26: LTM4700 regulator with digital power system management IC (VU13P core voltage).
         self.i2cDevice_IC26_LTM4700 = I2C_LTM4700.I2C_LTM4700(self.mcuI2C[1], 0x40, "IC26 (LTM4700)")
         # IC27: LTM4700 regulator with digital power system management IC (VU13P core voltage).
-        self.i2cDevice_IC27_LTM4700 = I2C_LTM4700.I2C_LTM4700(self.mcuI2C[1], 0x41, "IC27 (LTM4700)")
+        self.i2cDevice_IC27_LTM4700 = I2C_LTM4700.I2C_LTM4700(self.mcuI2C[1], 0x41, "IC27 (LTM4700)", self.debugLevel)
         # IC58: LTC2977 8-channel PMBus power system manager IC (1.8 V FPGA, 1.2 V MGT, 0.9 V MGT).
         self.i2cDevice_IC58_LTC2977 = I2C_LTC2977.I2C_LTC2977(self.mcuI2C[1], 0x5c, "IC58 (LTC2977)")
         # IC59: LTC2977 8-channel PMBus power system manager IC (1.8 V misc, 3.3 V misc, 5.0 V misc, 3.3. V FireFly).
