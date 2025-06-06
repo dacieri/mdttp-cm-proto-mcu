@@ -387,7 +387,7 @@ class I2C_LTM4700:
             self.errorCount += 1
             print(self.prefixErrorDevice + "Error reading the status word. Error code: 0x{0:02x}: ".format(ret))
             return -1, 0xffff
-        statusWord = data[0]
+        statusWord = (data[1] << 8) + data[0]
         return 0, statusWord
 
 
