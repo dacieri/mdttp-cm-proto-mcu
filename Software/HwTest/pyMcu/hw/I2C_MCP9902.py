@@ -183,7 +183,10 @@ class I2C_MCP9902:
         retCfg, valueCfg = self.read_reg(0x03)  # Educated guess: The configuration register with address 0x03 is for the internal diode.
         if retCfg:
             return retCfg, -128.0
+
+        print(f"Sensor configuration = {valueCfg}")
         retInt, valueInt = self.read_reg(0x00)
+        print(f"Sensor raw reading = {valueInt}")
         retFract, valueFract = self.read_reg(0x29)
         # Check if the measurement range is default (0 .. 127 °C) or extended (-64 .. 191 °C).
         if valueCfg & 0x04:
