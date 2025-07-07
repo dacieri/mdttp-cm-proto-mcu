@@ -247,7 +247,7 @@ class MdtTp_CM:
                 print(self.prefixDebug + "{0:s} manufacturer ID: 0x{1:02x}".format(sensor.deviceName, sensor.read_manufacturer_id()[1]))
                 print(self.prefixDebug + "{0:s} revision: 0x{1:02x}".format(sensor.deviceName, sensor.read_revision()[1]))
             print("Board {0:d}                  - {1:15s}: {2:6.3f} degC".format(sensorNum, sensor.deviceName, sensor.read_temp_int()[1]))
-            print("Board {0:d}                  - {1:15s}: status 0x{2:s}".format(sensorNum, sensor.deviceName, sensor.read_status()[1]))
+            print("Board {0:d}                  - {1:15s}: status 0x{2:d}".format(sensorNum, sensor.deviceName, sensor.read_status()[1]))
             sensorNum += 1
 
 
