@@ -693,6 +693,11 @@ class MdtTp_CM:
         ret, data = self.i2cDevice_IC27_LTM4700.read_iout(1)
         fpgaCoreCurrent += data
 
+        ret, ltm4700_0_frequency = self.i2cDevice_IC26_LTM4700.read_frequency(0)
+        ret, ltm4700_1_frequency = self.i2cDevice_IC26_LTM4700.read_frequency(1)
+        ret, ltm4700_2_frequency = self.i2cDevice_IC27_LTM4700.read_frequency(0)
+        ret, ltm4700_3_frequency = self.i2cDevice_IC27_LTM4700.read_frequency(1)
+
         # Calculate power.
         fpgaPower = abs(fpgaCoreVoltage     * fpgaCoreCurrent    ) + \
                     abs(P1V8_FPGA_Voltage   * P1V8_FPGA_Current  ) + \
@@ -709,6 +714,7 @@ class MdtTp_CM:
         print(self.prefixStatus + "{0:18s}: {1:5.2f} V, {2:5.2f} A".format("1.2V MGT",          P1V2_MGT_Voltage,   P1V2_MGT_Current    ))
         print(self.prefixStatus + "{0:18s}: {1:5.2f} V, {2:5.2f} A".format("0.9V MGT",          P0V9_MGT_Voltage,   P0V9_MGT_Current    ))
         print(self.prefixStatus + "{0:18s}: {1:5.1f} W".format("Total power",  fpgaPower))
+        print(self.prefixStatus + "{0:18s}: {f} Hz, {f} Hz, {f} Hz, {f} Hz".format("0.85V core",ltm4700_0_frequency,   ltm4700_1_frequency, ltm4700_2_frequency, ltm4700_3_frequency    ))
         print("Clock / Miscellaneous")
         print(self.prefixStatus + "{0:18s}: {1:5.2f} V, {2:5.2f} A".format("1.8V clock/misc",   P1V8_MISC_Voltage,  P1V8_MISC_Current   ))
         print(self.prefixStatus + "{0:18s}: {1:5.2f} V, {2:5.2f} A".format("3.3V clock/misc",   P3V3_MISC_Voltage,  P3V3_MISC_Current   ))

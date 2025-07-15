@@ -43,6 +43,7 @@ class I2C_LTM4700:
     hwCmdCodeReadIout       = 0x8c
     hwCmdCodeReadTempExt    = 0x8d
     hwCmdCodeReadTempInt    = 0x8e
+    hwCmdCodeReadFrequency  = 0x95
     hwCmdCodeMfrConfigChan  = 0xd0
     hwCmdStatusWord         = 0x79
     hwDataLenMin            = 1
@@ -92,6 +93,8 @@ class I2C_LTM4700:
             cmdName = "READ_TEMPERATURE_1"
         elif cmdCode == cls.hwCmdCodeReadTempInt:
             cmdName = "READ_TEMPERATURE_2"
+        elif cmdCode == cls.hwCmdCodeReadFrequency:
+            cmdName = "READ_FREQUENCY"
         elif cmdCode == cls.hwCmdCodeMfrConfigChan:
             cmdName = "MFR_CHAN_CONFIG"
         elif cmdCode == cls.hwCmdCodeVOUT_OV_FAULT_LIMIT:
@@ -456,7 +459,19 @@ class I2C_LTM4700:
         temperatureRaw = (data[1] << 8) + data[0]
         return 0, self.l11_to_float(temperatureRaw)
 
-
+    # Read the average output current in amperes.
+    def read_frequency(self, channel):
+        if self.set_page(channel):
+            self.errorCount += 1
+            return -1, float(-1)
+        # Read the IOUT value.
+        ret, data = self.read(self.hwCmdCodeReadFrequency, 2)
+        if ret:
+            self.errorCount += 1
+            print(self.prefixErrorDevice + "Error reading the output current of channel {0:d}. Error code: 0x{1:02x}: ".format(channel, ret))
+            return -1, float(-1)
+        ioutRaw = (data[1] << 8) + data[0]
+        return 0, self.l11_to_float(ioutRaw)
 
     # Read the channel specific configuration register MFR_CONFIG_LTM4700.
     def read_mfr_config(self, channel):
