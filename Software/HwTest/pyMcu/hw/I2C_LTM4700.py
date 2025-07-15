@@ -470,8 +470,8 @@ class I2C_LTM4700:
             self.errorCount += 1
             print(self.prefixErrorDevice + "Error reading the output current of channel {0:d}. Error code: 0x{1:02x}: ".format(channel, ret))
             return -1, float(-1)
-        ioutRaw = (data[1] << 8) + data[0]
-        return 0, self.l11_to_float(ioutRaw)
+        freqtRaw = (data[1] << 8) + data[0]
+        return 0, self.l11_to_float(freqtRaw)
 
     # Read the channel specific configuration register MFR_CONFIG_LTM4700.
     def read_mfr_config(self, channel):
