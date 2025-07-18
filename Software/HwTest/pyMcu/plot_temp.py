@@ -1,13 +1,16 @@
 import re
+import argparse
 from datetime import datetime
 import matplotlib.pyplot as plt
 from collections import defaultdict
 
-# Set the path to your log file
-log_file_path = "250715_1429_v2_endurance.log"
+# Set up argument parser
+parser = argparse.ArgumentParser(description='Process a log file to plot temperature over time.')
+parser.add_argument('log_file_path', type=str, help='Path to the log file')
+args = parser.parse_args()
 
 # Read the log file
-with open(log_file_path, "r") as f:
+with open(args.log_file_path, "r") as f:
     log_text = f.read()
 
 # Pattern to extract timestamped blocks
@@ -29,7 +32,6 @@ for timestamp_str, block in blocks:
 
 # Plotting
 plt.figure(figsize=(15, 8))
-
 for sensor, readings in sensor_data.items():
     times, temps = zip(*readings)
     plt.plot(times, temps, label=sensor)
