@@ -287,6 +287,13 @@ class I2C_MCP9902:
         ret = self.write_reg(0x25, value & 0x07 | 0x08)
         return ret, value & 0x0f
     
+
+    # write automatic beta config
+    def write_beta(self):
+        value = 0x04
+        ret = self.write_reg(0x25, value)
+        return ret, value & 0x0f
+    
     # Write the configuration register 0.
     def write_config_0(self, value):
         ret = self.write_reg(0x03, value)

@@ -907,6 +907,13 @@ class MdtTp_CM:
                 return ret
             print("Beta value from {0:s}: {1}".format(sensorDevice.deviceName, value))
             return 0
+        if action == "write_beta":
+            ret, value = sensorDevice.write_beta()
+            if ret:
+                print(self.prefixError + "Error writing beta on {0:s}!".format(sensorDevice.deviceName))
+                return ret
+            print("Beta 0x4 written on {0:s} ".format(sensorDevice.deviceName))
+            return 0
         elif action == "enable_beta":
             ret = sensorDevice.enable_beta()
             if ret:
