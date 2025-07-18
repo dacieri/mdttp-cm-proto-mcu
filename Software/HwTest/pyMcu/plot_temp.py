@@ -41,5 +41,5 @@ plt.legend(loc="upper left", bbox_to_anchor=(1, 1), fontsize="small")
 plt.grid(True)
 plt.tight_layout()
 plt.xticks(rotation=45)
-plt.savefig("v2-temp.png")
+plt.show()
 
