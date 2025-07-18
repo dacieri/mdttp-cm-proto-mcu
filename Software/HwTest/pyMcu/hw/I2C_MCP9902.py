@@ -89,6 +89,9 @@ class I2C_MCP9902:
         # Revision register.
         elif regAdr == 0xff:
             regName = "revision register"
+        # BETA config ext1.
+        elif regAdr == 0x25:
+            regName = "BETA config ext1"
         # Other registers.
         else:
             regName = "other/unknown"
@@ -267,8 +270,23 @@ class I2C_MCP9902:
         ret, value = self.read_reg(0xff)
         return ret, value
 
+    # REad beta config
+    def read_beta(self):
+        ret, value = self.read_reg(0x25)
+        return ret, value & 0x0f
 
+    # disable automatic beta config
+    def disable_beta(self):
+        ret, value = self.read_reg(0x25)
+        ret = self.write_reg(0x25, value & 0x07)
+        return ret, value & 0x0f
 
+    # enable automatic beta config
+    def enable_beta(self):
+        ret, value = self.read_reg(0x25)
+        ret = self.write_reg(0x25, value & 0x07 | 0x08)
+        return ret, value & 0x0f
+    
     # Write the configuration register 0.
     def write_config_0(self, value):
         ret = self.write_reg(0x03, value)

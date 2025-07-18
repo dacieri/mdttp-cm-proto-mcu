@@ -179,6 +179,18 @@ if __name__ == "__main__":
                 ret = mdtTp_CM.clk_prog_device_by_name(commandParameters[0], commandParameters[1])
         else:
             ret = mdtTp_CM.clk_prog_all()
+    elif command == "control_board_sensor":
+        if commandParameters:
+            if len(commandParameters) != 2:
+                print(prefixError, "Please specify the sensor name and the action/value.")
+                print(prefixError, "E.g.: -p TEMP_SENSOR1 ENABLE")
+                print(prefixError, "E.g.: -p PRESSURE_SENSOR2 42")
+                ret = -1
+            else:
+                ret = mdtTp_CM.control_board_sensor(commandParameters[0], commandParameters[1])
+        else:
+            print(prefixError, "Please specify the sensor name and the action/value with the `control_board_sensor` command.")
+            ret = -1
     elif command == "clk_reset":
         ret = mdtTp_CM.i2c_io_exp_reset_clk()
     elif command == "clk_status":

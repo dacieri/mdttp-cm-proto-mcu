@@ -251,7 +251,7 @@ class MdtTp_CM:
             sensorNum += 1
 
 
-
+        
     # Print details.
     def print_details(self):
         print(self.prefixDetails, end='')
@@ -880,7 +880,50 @@ class MdtTp_CM:
             return self.clk_prog_ic11(clkDevice)
         return self.clk_prog_device_file(clkDevice)
 
+    # control board sensors
+    def control_board_sensor(self, sensorDevName, action):
+        sensorDeviceList = [
+            self.i2cDevice_IC60_MCP9902,
+            self.i2cDevice_IC61_MCP9902,
+            self.i2cDevice_IC62_MCP9902
+        ]
+        sensorDevice = None
+        for dev in sensorDeviceList:
+            if sensorDevName.lower() == dev.deviceName.split(' ')[0].lower():
+                sensorDevice = dev
+                break
+        if not sensorDevice:
+            print(self.prefixError + "Sensor device '{0:s}' not valid!".format(sensorDevName))
+            print(self.prefixError + "Valid sensor devices: ", end='')
+            for dev in sensorDeviceList:
+                print(dev.deviceName.split(' ')[0] + " ", end='')
+            return -1
 
+        action = action.lower()
+        if action == "read_beta":
+            ret, value = sensorDevice.read_beta()
+            if ret:
+                print(self.prefixError + "Error reading beta from {0:s}!".format(sensorDevice.deviceName))
+                return ret
+            print("Beta value from {0:s}: {1}".format(sensorDevice.deviceName, value))
+            return 0
+        elif action == "enable_beta":
+            ret = sensorDevice.enable_beta()
+            if ret:
+                print(self.prefixError + "Error enabling beta on {0:s}!".format(sensorDevice.deviceName))
+                return ret
+            print("Beta enabled on {0:s}".format(sensorDevice.deviceName))
+            return 0
+        elif action == "disable_beta":
+            ret = sensorDevice.disable_beta()
+            if ret:
+                print(self.prefixError + "Error disabling beta on {0:s}!".format(sensorDevice.deviceName))
+                return ret
+            print("Beta disabled on {0:s}".format(sensorDevice.deviceName))
+            return 0
+        else:
+            print(self.prefixError + "Action '{0:s}' not valid! Valid actions: read_beta, enable_beta, disable_beta".format(action))
+            return -1
 
     # Program all clock devices.
     def clk_prog_all(self):
