@@ -50,7 +50,7 @@ if __name__ == "__main__":
                                  'i2c_reset', 'i2c_detect', "i2c_mux_reset",
                                  'i2c_io_exp_init', 'i2c_io_exp_status', 'i2c_io_exp_get_input', 'i2c_io_exp_get_output', 'i2c_io_exp_set_output',
                                  'pm_status', 'pm_status_raw',
-                                 'clk_setup', 'clk_reset', 'clk_status', 'ff_status','clk_status_regs'],
+                                 'clk_setup', 'clk_reset', 'clk_status', 'ff_status','clk_status_regs', 'control_board_sensor'],
                         dest='command', default='status',
                         help='Command to execute on the CM.')
     parser.add_argument('-d', '--device', action='store', type=str,
