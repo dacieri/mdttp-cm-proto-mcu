@@ -4,7 +4,7 @@
 # Auth: M. Fras, Electronics Division, MPI for Physics, Munich
 # Mod.: M. Fras, Electronics Division, MPI for Physics, Munich
 # Date: 26 Jul 2022
-# Rev.: 24 Feb 2023
+# Rev.: 20 Nov 2020
 #
 # Python class for accessing the ATLAS MDT Trigger Processor (TP) Command
 # Module (CM) Prototype via the TI Tiva TM4C1290 MCU UART.
@@ -588,7 +588,7 @@ class MdtTp_CM:
         ret, P5V_MISC_Voltage   = self.i2cDevice_IC59_LTC2977.read_vout(4)
         ret, P5V_MISC_Current   = self.pm_get_current(self.i2cDevice_IC59_LTC2977, 5, self.IC59_LTC2977_currentSenseShunts[5])
         ret, P3V3_FF_Voltage    = self.i2cDevice_IC59_LTC2977.read_vout(6)
-        ret, P3V3_FF_Current    = self.pm_get_current(self.i2cDevice_IC59_LTC2977, 7, self.IC59_LTC2977_currentSenseShunts[5])
+        ret, P3V3_FF_Current    = self.pm_get_current(self.i2cDevice_IC59_LTC2977, 7, self.IC59_LTC2977_currentSenseShunts[7])
         # IC26: LTM4700 regulator with digital power system management IC (FPGA core voltage).
         ret, fpgaCoreVoltage = self.i2cDevice_IC26_LTM4700.read_vout(0)
         fpgaCoreCurrent = 0
