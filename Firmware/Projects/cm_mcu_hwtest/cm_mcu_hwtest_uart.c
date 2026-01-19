@@ -2,7 +2,7 @@
 // Auth: M. Fras, Electronics Division, MPI for Physics, Munich
 // Mod.: M. Fras, Electronics Division, MPI for Physics, Munich
 // Date: 03 Jun 2022
-// Rev.: 03 Jun 2022
+// Rev.: 10 Oct 2025
 //
 // UART functions of the hardware test firmware running on the ATLAS MDT
 // Trigger Processor (TP) Command Module (CM) prototype MCU.
@@ -173,9 +173,9 @@ int UartSetup(char *pcCmd, char *pcParam)
 {
     int i;
     uint8_t ui8UartPort = 0;
-    uint32_t ui32UartBaud;
-    uint32_t ui32UartParity;
-    bool bUartLoopback;
+    uint32_t ui32UartBaud = 115200;
+    uint32_t ui32UartParity = UART_CONFIG_PAR_NONE;
+    bool bUartLoopback = false;
     tUART *psUart;
     // Parse parameters.
     for (i = 0; i <= 3; i++) {

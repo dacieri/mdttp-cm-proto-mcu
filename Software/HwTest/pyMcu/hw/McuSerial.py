@@ -2,7 +2,7 @@
 # Auth: M. Fras, Electronics Division, MPI for Physics, Munich
 # Mod.: M. Fras, Electronics Division, MPI for Physics, Munich
 # Date: 24 Apr 2020
-# Rev.: 17 Mar 2023
+# Rev.: 06 Apr 2023
 #
 # Python class for communicating with the TM4C1290NCPDT MCU over a serial port
 # (UART).
